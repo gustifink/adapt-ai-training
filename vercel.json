@@ -3,9 +3,12 @@
   "builds": [
     { "src": "server.js", "use": "@vercel/node" },
     { "src": "*.html", "use": "@vercel/static" },
-    { "src": "*.css", "use": "@vercel/static" }
+    { "src": "*.css", "use": "@vercel/static" },
+    { "src": "*.ico", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "/styles.css", "dest": "/styles.css" },
+    { "src": "/favicon.ico", "dest": "/favicon.ico" },
     { "src": "/(.*)", "dest": "/server.js" }
   ]
 } 
