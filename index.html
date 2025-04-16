@@ -13,6 +13,7 @@
 <body>
     <header>
         <div class="logo">Adapt</div>
+        <div id="env-indicator" class="env-indicator"></div>
         <div class="nav-toggle" id="navToggle">
             <i class="fas fa-bars"></i>
         </div>
@@ -511,6 +512,23 @@
                     }
                 });
             });
+            
+            // Set environment indicator
+            const envIndicator = document.getElementById('env-indicator');
+            // Check current hostname to detect environment
+            const hostname = window.location.hostname;
+            let env = 'production';
+            
+            if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                env = 'development';
+            } else if (hostname.includes('staging') || hostname.includes('preview')) {
+                env = 'staging';
+            }
+            
+            if (env !== 'production') {
+                envIndicator.textContent = env;
+                envIndicator.classList.add(env);
+            }
         });
     </script>
 </body>

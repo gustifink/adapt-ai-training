@@ -1432,4 +1432,37 @@ footer .logo {
 
 .mobile-bottom-nav a.cta-small i {
     color: var(--primary-color);
+}
+
+/* Environment Indicator */
+.env-indicator {
+    display: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-left: 8px;
+    text-transform: uppercase;
+}
+
+.env-indicator.development {
+    display: inline-block;
+    background-color: #ffcc00;
+    color: #333;
+}
+
+.env-indicator.staging {
+    display: inline-block;
+    background-color: #ff9500;
+    color: white;
+}
+
+/* Mobile Responsive Adjustments for Environment Indicator */
+@media (max-width: 768px) {
+    .env-indicator {
+        position: absolute;
+        top: 25px;
+        left: 100px;
+        z-index: 200;
+    }
 } 

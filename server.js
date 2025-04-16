@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const compression = require('compression');
 const helmet = require('helmet');
+const config = require('./config');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,15 +25,23 @@ app.use((req, res, next) => {
   next();
 });
 
-// Log requests
+// Log requests with environment info
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
+  console.log(`[${config.env}] ${req.method} ${req.url}`);
+  next();
+});
+
+// Add environment indicator for non-production environments
+app.use((req, res, next) => {
+  if (config.env !== 'production') {
+    res.locals.env = config.env;
+  }
   next();
 });
 
 // Serve static files with proper caching
 app.use(express.static(path.join(__dirname), {
-  maxAge: '1h',
+  maxAge: config.env === 'production' ? '1d' : '0',
   setHeaders: (res, path) => {
     if (path.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
@@ -47,6 +56,6 @@ app.get('*', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+  console.log(`Server running in ${config.env} mode at http://localhost:${PORT}/`);
   console.log(`Press Ctrl+C to stop the server`);
 }); 

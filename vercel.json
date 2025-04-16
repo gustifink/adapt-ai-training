@@ -10,5 +10,15 @@
     { "src": "/styles.css", "dest": "/styles.css" },
     { "src": "/favicon.ico", "dest": "/favicon.ico" },
     { "src": "/(.*)", "dest": "/server.js" }
-  ]
+  ],
+  "github": {
+    "enabled": true,
+    "silent": false
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "staging": true
+    }
+  }
 } 
