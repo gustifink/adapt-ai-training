@@ -13,7 +13,10 @@
 <body>
     <header>
         <div class="logo">Adapt</div>
-        <nav>
+        <div class="nav-toggle" id="navToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav id="mainNav">
             <ul>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#learning-experience">Learning Experience</a></li>
@@ -22,6 +25,7 @@
                 <li><a href="#pricing">Pricing</a></li>
             </ul>
         </nav>
+        <div class="overlay" id="overlay"></div>
     </header>
 
     <section class="hero">
@@ -438,5 +442,76 @@
             </div>
         </div>
     </footer>
+
+    <!-- Mobile bottom navigation -->
+    <div class="mobile-bottom-nav">
+        <ul>
+            <li><a href="#features"><i class="fas fa-list"></i><span>Features</span></a></li>
+            <li><a href="#learning-experience"><i class="fas fa-graduation-cap"></i><span>Learn</span></a></li>
+            <li><a href="#pricing"><i class="fas fa-tag"></i><span>Pricing</span></a></li>
+            <li><a href="#" class="cta-small"><i class="fas fa-rocket"></i><span>Join</span></a></li>
+        </ul>
+    </div>
+
+    <script>
+        // Mobile navigation toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('navToggle');
+            const mainNav = document.getElementById('mainNav');
+            const overlay = document.getElementById('overlay');
+            const body = document.body;
+            
+            // Add mobile nav class to body
+            body.classList.add('has-mobile-nav');
+            
+            // Toggle navigation
+            navToggle.addEventListener('click', function() {
+                mainNav.classList.toggle('active');
+                overlay.classList.toggle('active');
+                document.body.classList.toggle('no-scroll');
+            });
+            
+            // Close nav when clicking overlay
+            overlay.addEventListener('click', function() {
+                mainNav.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            });
+            
+            // Close nav when clicking a link
+            const navLinks = mainNav.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mainNav.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.classList.remove('no-scroll');
+                });
+            });
+            
+            // Highlight active section in bottom nav
+            const sections = document.querySelectorAll('section');
+            const bottomNavLinks = document.querySelectorAll('.mobile-bottom-nav a');
+            
+            window.addEventListener('scroll', function() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if(pageYOffset >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                bottomNavLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const href = link.getAttribute('href');
+                    if(href && href !== '#' && href.includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html> 

@@ -19,6 +19,8 @@
     --transition: all 0.3s ease;
     --container-width: 1200px;
     --container-padding: 32px;
+    --mobile-padding: 20px;
+    --header-height: 70px;
 }
 
 * {
@@ -36,6 +38,9 @@ body {
     line-height: 1.5;
     color: var(--text-color);
     background-color: var(--bg-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
 .container {
@@ -169,6 +174,8 @@ header {
     -webkit-backdrop-filter: blur(10px);
     z-index: 100;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+    height: var(--header-height);
+    transition: height 0.3s ease;
 }
 
 header .logo {
@@ -1087,36 +1094,17 @@ footer .logo {
     margin-bottom: 0;
 }
 
-/* Responsive adjustments for learning section */
-@media (max-width: 1024px) {
-    .gamification-elements {
-        grid-template-columns: repeat(2, 1fr);
-    }
+/* Mobile Navigation Toggle */
+.nav-toggle {
+    display: none;
 }
 
-@media (max-width: 768px) {
-    .category {
-        grid-template-columns: 1fr;
-    }
-    
-    .category-icon {
-        margin-bottom: 16px;
-    }
-    
-    .gamification-elements {
-        grid-template-columns: 1fr;
-    }
-    
-    .gamification-preview {
-        padding: 32px 24px;
-    }
-    
-    .learning-experience {
-        padding: 60px 0;
-    }
+.overlay {
+    display: none;
 }
 
-/* Responsive design */
+/* Responsive Styles */
+/* LARGE SCREENS */
 @media (max-width: 1024px) {
     h1 {
         font-size: 3rem;
@@ -1129,8 +1117,13 @@ footer .logo {
     .feature-cards, .mentor-cards {
         grid-template-columns: repeat(2, 1fr);
     }
+    
+    .gamification-elements {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
+/* MOBILE SCREENS */
 @media (max-width: 768px) {
     h1 {
         font-size: 2.5rem;
@@ -1140,13 +1133,151 @@ footer .logo {
         font-size: 2rem;
     }
     
+    .container {
+        padding: 0 var(--mobile-padding);
+    }
+    
     header {
         flex-direction: column;
         gap: 16px;
+        padding: 0 var(--mobile-padding);
     }
     
-    .feature-cards, .mentor-cards, .testimonial-grid {
+    .nav-toggle {
+        display: block;
+        position: absolute;
+        right: var(--mobile-padding);
+        top: 25px;
+        z-index: 200;
+        color: var(--text-color);
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    
+    header nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 320px;
+        height: 100vh;
+        background-color: var(--bg-color);
+        box-shadow: var(--shadow-lg);
+        transition: right 0.3s ease;
+        z-index: 100;
+        padding-top: var(--header-height);
+        padding-left: 40px;
+    }
+    
+    header nav.active {
+        right: 0;
+    }
+    
+    header nav ul {
+        flex-direction: column;
+        gap: 32px;
+        padding-top: 20px;
+    }
+    
+    header nav a {
+        font-size: 1.2rem;
+    }
+    
+    .overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 90;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+    
+    .overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .hero {
+        padding: 80px 0 100px;
+        text-align: left;
+    }
+    
+    .hero h1 {
+        font-size: 2.2rem;
+        line-height: 1.2;
+        margin-bottom: 16px;
+        text-align: left;
+    }
+    
+    .hero h2 {
+        font-size: 1.2rem;
+        text-align: left;
+        margin-bottom: 32px;
+    }
+    
+    .badge {
+        margin-bottom: 16px;
+    }
+    
+    .cta-button {
+        width: 100%;
+        display: block;
+        text-align: center;
+        padding: 16px;
+    }
+    
+    section {
+        padding: 60px 0;
+    }
+    
+    .feature-cards, 
+    .mentor-cards, 
+    .testimonial-grid,
+    .gamification-elements {
         grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .feature-card,
+    .mentor-card,
+    .testimonial-card {
+        padding: 24px;
+    }
+    
+    .category {
+        grid-template-columns: 1fr;
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+    
+    .category-icon {
+        margin: 0 auto 20px;
+    }
+    
+    .content-categories {
+        gap: 32px;
+    }
+    
+    .example-lesson {
+        padding: 16px;
+    }
+    
+    .gamification-preview {
+        padding: 32px 20px;
+    }
+    
+    .gamification-heading h4 {
+        font-size: 1.5rem;
+    }
+    
+    .gamification-element {
+        padding: 20px;
     }
     
     .results-comparison {
@@ -1154,9 +1285,44 @@ footer .logo {
         gap: 40px;
     }
     
+    .progress-bar {
+        height: 6px;
+    }
+    
+    .percentage {
+        font-size: 2rem;
+    }
+    
+    .pricing-card {
+        padding: 32px 24px;
+    }
+    
+    .popular-tag {
+        top: 12px;
+        right: -35px;
+        padding: 4px 40px;
+        font-size: 0.7rem;
+    }
+    
+    .value-prop {
+        padding: 16px;
+    }
+    
+    footer {
+        padding: 60px 0 32px;
+    }
+    
     .footer-content {
         grid-template-columns: 1fr;
         gap: 40px;
+    }
+    
+    .tagline h3 {
+        font-size: 1.5rem;
+    }
+    
+    .tagline h4 {
+        font-size: 1rem;
     }
     
     .copyright {
@@ -1164,4 +1330,106 @@ footer .logo {
         gap: 16px;
         align-items: center;
     }
+    
+    .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+        padding: 12px 0;
+        z-index: 90;
+    }
+    
+    .mobile-bottom-nav ul {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .mobile-bottom-nav li {
+        text-align: center;
+    }
+    
+    .mobile-bottom-nav a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: var(--text-light);
+        font-size: 0.7rem;
+    }
+    
+    .mobile-bottom-nav a.active {
+        color: var(--primary-color);
+    }
+    
+    .mobile-bottom-nav i {
+        font-size: 1.2rem;
+        margin-bottom: 4px;
+    }
+    
+    body.has-mobile-nav {
+        padding-bottom: 60px;
+    }
+    
+    body.no-scroll {
+        overflow: hidden;
+    }
+}
+
+/* SMALL MOBILE SCREENS */
+@media (max-width: 480px) {
+    :root {
+        --mobile-padding: 16px;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero h2 {
+        font-size: 1.1rem;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+    
+    section {
+        padding: 50px 0;
+    }
+    
+    .feature-card,
+    .mentor-card,
+    .testimonial-card {
+        padding: 20px;
+    }
+    
+    .category {
+        padding: 20px;
+    }
+    
+    .company-logos {
+        gap: 20px;
+    }
+}
+
+.mobile-bottom-nav a.cta-small {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.mobile-bottom-nav a.cta-small i {
+    color: var(--primary-color);
 } 
